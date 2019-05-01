@@ -1,0 +1,85 @@
+#include "stdio.h"
+#include "stdlib.h"
+#include "conio.h"
+#include "string.h"
+
+const int CEVAPSAYISI = 4;
+const int OGRENCISAYISI =2;
+
+
+
+typedef struct
+{
+	char *okulNumarasi;
+	char *cevap;
+	int puan;
+}ogrenci;
+
+void girdileriAl(ogrenci*[OGRENCISAYISI]);
+void sonuclariHesapla(ogrenci*[OGRENCISAYISI]);
+void sonuclariYazdir(ogrenci*[OGRENCISAYISI]);
+
+int main(void)
+{
+	ogrenci *o;
+	o = (ogrenci*)malloc(sizeof(ogrenci)*OGRENCISAYISI);
+	
+	girdileriAl(&o);
+	sonuclariHesapla(&o);
+	sonuclariYazdir(&o);
+	return -1;
+}
+void sonuclariYazdir(ogrenci *o[OGRENCISAYISI])
+{
+int i;
+system("CLS");
+for(i=0;i<OGRENCISAYISI;i++)
+{
+	printf("%s numarali ogrencinin puani: %d\n",o[i]->okulNumarasi,o[i]->puan);
+	}	
+}
+
+void sonuclariHesapla(ogrenci *o[OGRENCISAYISI])
+{
+char *cevaplar;int i,j,dogru,yanlis;
+cevaplar = (char*)malloc(sizeof(char)*CEVAPSAYISI);
+
+for(i=0;i<CEVAPSAYISI;i++)
+{
+	printf("%d. cevap",i+1);
+	scanf("%s",&cevaplar[i]);
+}
+for(i=0;i<OGRENCISAYISI;i++)
+{
+	dogru=0,yanlis=0;
+	for(j=0;j<CEVAPSAYISI;j++)
+	{
+		if(o[i]->cevap[j]==cevaplar[j])dogru++;
+		else yanlis ++;
+	}
+	dogru -= yanlis/4;
+o[i]->puan = dogru*(100/CEVAPSAYISI);
+}
+}
+
+
+void girdileriAl(ogrenci *o[OGRENCISAYISI])
+{
+	int i,j;
+	char numara[20];
+	for(i=0;i<OGRENCISAYISI;i++)
+	{
+		printf("%d. ogrenci numarasi:\n",i+1);
+		scanf("%s",numara);
+		
+		o[i]->okulNumarasi = (char*)malloc(sizeof(numara)*sizeof(char));
+		o[i]->cevap = (char*)malloc(sizeof(char)*CEVAPSAYISI);
+		strcpy(o[i]->okulNumarasi,numara);
+		for(j=0;j<CEVAPSAYISI;j++)
+		{
+			printf("%d. cevap:\n",j+1);
+			
+		    scanf("%s",&o[i]->cevap[j]);
+		}
+	}
+}
