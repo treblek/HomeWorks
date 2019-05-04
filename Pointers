@@ -1,0 +1,72 @@
+#include "stdio.h"
+#include "stdlib.h"
+#include "stdint.h"
+#include "stdbool.h"
+
+#define C_YAPI_UZUNLUGU 10
+
+typedef struct
+{
+	char *isim;
+	uint16_t ogrenci_sayisi;
+	uint8_t	ogretmen_sayisi;
+	char *sehir;
+}okul_yapisi;
+
+void bilgileriOku(okul_yapisi *yapi,bool tekBoyutluMu);
+void bilgileriOku_TekBoyut(okul_yapisi *yapi);
+void bilgileriOku_CokBoyut(okul_yapisi *yapi);
+
+int main(void)
+{
+	okul_yapisi a,*b,*c;
+	
+	bilgileriOku(&a,true);
+	bilgileriOku(c,false);
+	b = &a;
+	*c = a;
+	
+	return -1;
+}
+void bilgileriOku_TekBoyut(okul_yapisi *yapi)
+{
+	printf("TEK boyuta girdi\n");
+	char bilgi[20];
+	printf("isim:");
+	scanf("%s",bilgi);
+		yapi->isim = (char*)calloc(1,sizeof(bilgi)*sizeof(char)+1);
+		printf("sehir:");
+		scanf("%s",bilgi);
+		yapi->sehir= calloc(1,sizeof(bilgi)*sizeof(char)+1);
+	printf("ogretmen sayisi");
+	scanf("%d",&yapi->ogretmen_sayisi);
+	printf("ogrenci sayisi");
+	scanf("%d",&yapi->ogrenci_sayisi);
+}
+
+void bilgileriOku_CokBoyut(okul_yapisi *yapi)
+{
+	printf("COK boyuta girdi\n");
+	uint8_t i;
+	for(i=0;i<C_YAPI_UZUNLUGU;i++)
+	{
+		char bilgi[20];
+	printf("isim:");
+	scanf("%s",bilgi);
+		yapi[i].isim = calloc(1,sizeof(bilgi)*sizeof(char)+1);
+		printf("sehir:");
+		scanf("%s",bilgi);
+		yapi[i].sehir= calloc(1,sizeof(bilgi)*sizeof(char)+1);
+	printf("ogretmen sayisi");
+	scanf("%d",&yapi[i].ogretmen_sayisi);
+	printf("ogrenci sayisi");
+	scanf("%d",&yapi[i].ogrenci_sayisi);
+	}
+}
+void bilgileriOku(okul_yapisi *yapi,bool tekBoyutluMu)
+{
+	if(tekBoyutluMu)
+	bilgileriOku_TekBoyut(yapi);
+	else
+	bilgileriOku_CokBoyut(yapi);
+}
